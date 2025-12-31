@@ -1,4 +1,3 @@
-
 # Predictive Maintenance – Bearing Fault Detection  
 ### Raw Vibration + Feature-Based Machine Learning Pipelines
 
@@ -42,8 +41,8 @@ Provide explainable + engineering-trustworthy outputs
 ## 🧠 Dataset Overview
 
 ### 🔶 Processed Feature Dataset
-- Tabular vibration statistics
-- One row = one vibration window
+- Tabular vibration statistics  
+- One row = one vibration window  
 - Key features include:
   - RMS  
   - Standard Deviation  
@@ -52,10 +51,10 @@ Provide explainable + engineering-trustworthy outputs
   - Crest Factor  
 
 ### 🔷 Raw Vibration Data
-- Accelerometer `.mat` recordings
-- Continuous vibration signals
-- Multiple operating loads
-- Multiple fault severities
+- Accelerometer `.mat` recordings  
+- Continuous vibration signals  
+- Multiple operating loads  
+- Multiple fault severities  
 
 ---
 
@@ -67,7 +66,7 @@ Fast analytical ML when features are already available.
 
 Steps  
 - Load structured vibration feature dataset  
-- Train Random Forest classifier  
+- Train Random Forest + alternative ML models  
 - Evaluate  
 - Explain results with feature importance  
 
@@ -84,7 +83,7 @@ Steps
 - Load `.mat` vibration files  
 - Segment signals into windows  
 - Extract statistical vibration features  
-- Train Random Forest classifier  
+- Train Random Forest + alternative ML models  
 - Evaluate + explainability  
 
 Outcome  
@@ -92,88 +91,156 @@ Automated end-to-end digital maintenance capability from sensor → diagnosis.
 
 ---
 
-# 📊 Model Evaluation & Visual Results
+# 📊 Model Evaluation & Results
 
-Both pipelines are evaluated using:
+Both pipelines are now upgraded to test **multiple machine learning models**:
 
-- Accuracy  
-- Precision, Recall, F1  
-- Confusion Matrix  
-- Feature Importance
+- Random Forest  
+- XGBoost  
+- Gradient Boosting  
+- Logistic Regression  
+- SVM (RBF)
+
+Each notebook automatically evaluates all models and saves confusion matrices to:
+
+```
+results/confusion_matrices/
+```
 
 ---
 
-## ✅ Notebook 1 – Feature-Based Pipeline
+## ✅ Notebook 1 – Feature-Based Pipeline (Final Results)
 
-### 🔷 Confusion Matrix
-Excellent class separation and minimal misclassification.
+### 🔷 Performance Summary
 
-![Confusion Matrix – Feature Pipeline](results/processed/Confusion_matrix.png)
+| Model | Accuracy | ROC–AUC |
+|------|--------|--------|
+| Random Forest | **0.9456** | **0.9953** |
+| XGBoost | 0.9435 | 0.9949 |
+| Gradient Boosting | 0.9435 | 0.9946 |
+| Logistic Regression | 0.8956 | 0.9894 |
+| SVM (RBF) | 0.8217 | 0.9826 |
+
+➡️ **Ensemble tree models dominate**, confirming that bearing vibration features are nonlinear and benefit from learning complex relationships.
+
+---
+
+### 🔷 Saved Confusion Matrices (Feature Pipeline)
+
+These are saved automatically when the notebook runs:
+
+```
+results/confusion_matrices/quick_cm_Random_Forest.png
+results/confusion_matrices/quick_cm_XGBoost.png
+results/confusion_matrices/quick_cm_Gradient_Boosting.png
+results/confusion_matrices/quick_cm_Logistic_Regression.png
+results/confusion_matrices/quick_cm_SVM_RBF.png
+```
+
+Example (Random Forest):
+
+![Feature Pipeline Confusion Matrix](results/confusion_matrices/quick_cm_Random_Forest.png)
+
+---
 
 ### 🔷 Feature Importance
-Highlights dominant diagnostic indicators.
 
 ![Feature Importance – Feature Pipeline](results/processed/Feature_importance.png)
 
 **Key Insights**
-- RMS is a strong indicator of energy change under fault
-- Kurtosis identifies impulsive shocks → common in bearing defects
-- Crest Factor helps separate impact-dominant faults
-- Standard Deviation indicates instability and mechanical degradation
-
-Result:  
-**Highly accurate + stable model performance** with strong explainability.
+- RMS captures overall vibration energy under fault
+- Kurtosis identifies impulsive shock behavior
+- Crest Factor separates high-impact faults
+- Standard deviation reflects instability & degradation
 
 ---
 
-## ✅ Notebook 2 – Raw Signal Pipeline
+## ✅ Notebook 2 – Raw Signal Pipeline (Final Results)
 
-### 🔶 Confusion Matrix
-Shows strong predictive performance even when starting from raw vibration signals.
+Even when starting from **raw vibration recordings**, the system successfully extracts features and achieves strong predictive performance.
 
-![Confusion Matrix – Raw Pipeline](results/raw/Confusion_Matrix.png)
+### 🔶 Confusion Matrices Saved Automatically
 
-### 🔶 Feature Importance
-Shows similar dominant signals → confirming engineering consistency.
+```
+results/confusion_matrices/raw_cm_Random_Forest.png
+results/confusion_matrices/raw_cm_XGBoost.png
+results/confusion_matrices/raw_cm_Gradient_Boosting.png
+results/confusion_matrices/raw_cm_Logistic_Regression.png
+results/confusion_matrices/raw_cm_SVM_RBF.png
+```
+
+Example (Random Forest):
+
+![Raw Pipeline Confusion Matrix](results/confusion_matrices/raw_cm_Random_Forest.png)
+
+---
+
+### 🔶 Feature Importance (Raw Pipeline)
 
 ![Feature Importance – Raw Pipeline](results/raw/Feature_importance.png)
 
-**Key Insights**
-- RMS, Kurtosis, Std, Crest Factor again dominate
-- Confirms pipeline robustness  
-- Confirms alignment with vibration theory
-- Model generalizes well despite additional signal processing steps
+**Key Findings**
+- RMS, Kurtosis, Std, Crest Factor again dominate  
+- Confirms **engineering consistency**  
+- Confirms robustness of feature extraction pipeline  
+- Model generalizes across loads & noise
 
 ---
 
 # 🔍 Comparative Analysis – Pipeline vs Pipeline
 
 ### 🎯 Accuracy & Classification
-Both pipelines **achieve strong classification performance**, with the feature dataset pipeline achieving slightly more stable and consistent predictions due to cleaner inputs.
+Both pipelines achieve **high diagnostic performance**, with the feature dataset pipeline being slightly more stable due to cleaner data input.
 
 ### 🧠 Interpretability
-Both models agree that:
-- **RMS**
-- **Kurtosis**
-- **Crest Factor**
-- **Std Deviation**
+Both pipelines independently discovered the same dominant indicators:
 
-are the most important indicators.  
+- RMS  
+- Kurtosis  
+- Crest Factor  
+- Standard Deviation  
 
-This agreement strengthens engineering trust and validates feature engineering quality.
+This reinforces engineering confidence and trustworthiness.
 
-### ⚙️ Practical Industrial Meaning
-- The **feature-based pipeline** is ideal when structured monitoring systems already exist.  
-- The **raw signal pipeline** is suited for real-world IoT deployment, where the system must convert raw sensor data into insights.
+### ⚙️ Industrial Meaning
+- Feature-based pipeline → ideal when structured monitoring exists  
+- Raw pipeline → ideal for IoT / edge analytics systems
 
 ---
 
 # 🏁 Final Takeaways
 
-✔ Both pipelines deliver **high diagnostic accuracy**  
-✔ Models provide **clear, explainable engineering insights**  
-✔ Evidence aligns strongly with vibration theory  
-✔ Demonstrates robust predictive maintenance capability  
-✔ Valid for real-world industrial deployment
+✔ High diagnostic accuracy  
+✔ Robust to different data forms  
+✔ Predictive + explainable  
+✔ Industrially relevant  
+✔ Deployment ready
 
 ---
+
+## 📌 Repository Structure
+
+```
+data/
+ ├── raw/                  → Original vibration .mat files
+ ├── processed/            → Feature-engineered datasets
+notebooks/
+ ├── 01_quick_predictive_maintenance_multi_models_confmats.ipynb
+ ├── 02_raw_signal_pipeline_multi_models_confmats.ipynb
+results/
+ ├── processed/
+ ├── raw/
+ └── confusion_matrices/   → Saved confusion matrices for README & reports
+```
+
+---
+
+## 🚀 Why This Project Matters
+
+This project demonstrates capability to:
+
+- Work with **real engineering data**
+- Apply **signal processing + ML**
+- Deliver **reliable maintenance diagnostics**
+- Present **clear engineering insight**
+- Build solutions aligned with **industrial practice**
