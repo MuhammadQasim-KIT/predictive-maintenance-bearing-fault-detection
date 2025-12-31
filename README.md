@@ -130,11 +130,11 @@ results/confusion_matrices/
 These are saved automatically when the notebook runs:
 
 ```
-results/confusion_matrices/quick_cm_Random_Forest.png
-results/confusion_matrices/quick_cm_XGBoost.png
-results/confusion_matrices/quick_cm_Gradient_Boosting.png
-results/confusion_matrices/quick_cm_Logistic_Regression.png
-results/confusion_matrices/quick_cm_SVM_RBF.png
+results/confusion_matrices/processed_Random_Forest.png
+results/confusion_matrices/processed_XGBoost.png
+results/confusion_matrices/processed_Gradient_Boosting.png
+results/confusion_matrices/processed_Logistic_Regression.png
+results/confusion_matrices/processed_SVM_RBF.png
 ```
 
 Example (Random Forest):
