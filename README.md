@@ -132,7 +132,7 @@ results/confusion_matrices/
 
 Example (Random Forest):
 
-![Feature Pipeline Confusion Matrix](results/confusion_matrices/quick_cm_Random_Forest.png)
+![Feature Pipeline Confusion Matrix](results/confusion_matrices/processed_Random_Forest.png)
 
 ---
 
